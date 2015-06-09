@@ -25,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
         NavigationDrawerFragment drawerFragment;
         drawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp((DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer,(DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
 
     }
 

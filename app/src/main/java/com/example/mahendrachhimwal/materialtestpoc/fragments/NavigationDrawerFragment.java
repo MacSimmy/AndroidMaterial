@@ -1,6 +1,5 @@
 package com.example.mahendrachhimwal.materialtestpoc.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -37,8 +36,12 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstance;
 
     private DrawerLayout mDrawerLayout;
+    private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
-    public static final  String PREF_FILE_NAME="testpref";
+    public static final String PREF_FILE_NAME = "testpref";
+    public static final String KEY_USER_LEARNED_DRAWER = "keyUserLearnedDrawer";
+
+    private View containerView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,6 +74,11 @@ public class NavigationDrawerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, "false"));
+        if (savedInstanceState != null) {
+            mFromSavedInstance = true;
+        }
+
     }
 
     @Override
@@ -104,6 +112,7 @@ public class NavigationDrawerFragment extends Fragment {
         mListener = null;
     }
 */
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -119,24 +128,58 @@ public class NavigationDrawerFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public  void setUp(DrawerLayout drawerLayout,  Toolbar toolBar)
-    {
+    public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolBar) {
         mDrawerLayout = drawerLayout;
-        mDrawerToggle= new ActionBarDrawerToggle(getActivity(),mDrawerLayout,toolBar,R.string.drawer_open,R.string.Drawer_closed){
+        mToolbar = toolBar;
+        containerView = getActivity().findViewById(fragmentId);
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, toolBar, R.string.drawer_open, R.string.Drawer_closed) {
             @Override
             public void onDrawerOpened(View drawerView) {
-
                 super.onDrawerOpened(drawerView);
+                if (!mUserLearnedDrawer) {
+                    saveToPrefarences(getActivity(), KEY_USER_LEARNED_DRAWER, mUserLearnedDrawer + "");
+                }
+                getActivity().invalidateOptionsMenu();
+
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                getActivity().invalidateOptionsMenu();
+
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if(slideOffset<0.6)
+                {
+                    mToolbar.setAlpha(1-slideOffset);
+                }
             }
         };
+      /*  if (!mUserLearnedDrawer && !mFromSavedInstance) {
+            mDrawerLayout.openDrawer(containerView);
+        }*/
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerToggle.syncState();
+            }
+        });
     }
-     public void saveToPrefarences(Context context,String preferenceName, String preferenceValue){
-         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME,Context.MODE_PRIVATE);
-     }
+
+    public static void saveToPrefarences(Context context, String preferenceName, String preferenceValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(preferenceName, preferenceValue);
+        editor.apply();
+    }
+
+    public static String readFromPreferences(Context context, String prefeenceName, String defaultValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(prefeenceName, defaultValue);
+    }
 }
