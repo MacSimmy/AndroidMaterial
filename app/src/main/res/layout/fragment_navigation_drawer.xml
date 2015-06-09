@@ -7,6 +7,7 @@
 
     <!-- TODO: Update blank fragment layout -->
   <ImageView
+
       android:id="@+id/imageViewNavigationDrawer"
       android:layout_marginTop="@dimen/navigation_margin_top"
       android:layout_width="280dp"
