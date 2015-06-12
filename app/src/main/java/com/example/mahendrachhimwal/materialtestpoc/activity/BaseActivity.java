@@ -1,11 +1,13 @@
 package com.example.mahendrachhimwal.materialtestpoc.activity;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.example.mahendrachhimwal.materialtestpoc.fragments.NavigationDrawerFragment;
 import com.example.mahendrachhimwal.materialtestpoc.R;
@@ -45,9 +47,19 @@ public class BaseActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            animateApp();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    public  void animateApp(){
+        ImageView imaegView= (ImageView) findViewById(R.id.animation_image_view);
+        imaegView.setBackgroundResource(R.drawable.file_animation);
+        AnimationDrawable frameAnimation = (AnimationDrawable) imaegView.getBackground();
+        frameAnimation.start();
+    }
+
 }

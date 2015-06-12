@@ -1,0 +1,9 @@
+<animation-list
+    android:id="@+id/selected"
+    android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/navigation_image" android:duration="50" />
+    <item android:drawable="@drawable/abc_tab_indicator_mtrl_alpha" android:duration="50" />
+    <item android:drawable="@drawable/notification_template_icon_bg" android:duration="50" />
+    <item android:drawable="@drawable/abc_btn_radio_material" android:duration="50" />
+</animation-list>

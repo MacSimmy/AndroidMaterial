@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
     public static final String PREF_FILE_NAME = "testpref";
     public static final String KEY_USER_LEARNED_DRAWER = "keyUserLearnedDrawer";
+    private RecyclerView mRecyclerView;
 
     private View containerView;
 
@@ -85,7 +87,9 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        View layoutView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        mRecyclerView = (RecyclerView) layoutView.findViewById(R.id.drawerList);
+        return layoutView;
     }
 
   /*  // TODO: Rename method, update argument and hook method into UI event
